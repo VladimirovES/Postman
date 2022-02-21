@@ -1,7 +1,7 @@
 # Postman
 ## Спарсить request
 
-POSt raw
+POST raw
 ```
 let post_raw = JSON.parse(request.data);
 ```
