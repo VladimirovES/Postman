@@ -11,14 +11,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "162.55.220.72:5005/get_method?name=Evgeniy&age=26",
+					"raw": "{{url}}/get_method?name=Evgeniy&age=26",
 					"host": [
-						"162",
-						"55",
-						"220",
-						"72"
+						"{{url}}"
 					],
-					"port": "5005",
 					"path": [
 						"get_method"
 					],
@@ -218,7 +214,7 @@
 			"response": []
 		},
 		{
-			"name": "/user_info_2",
+			"name": "user_info_2",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -227,46 +223,28 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "John",
+							"value": "Vova",
 							"type": "text"
 						},
 						{
 							"key": "age",
-							"value": "25",
+							"value": "76",
 							"type": "text"
 						},
 						{
 							"key": "salary",
-							"value": "3600",
+							"value": "20",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "162.55.220.72:5005/user_info_2?=LeBron&age=37&salary=3500",
+					"raw": "{{url}}/user_info_2",
 					"host": [
-						"162",
-						"55",
-						"220",
-						"72"
+						"{{url}}"
 					],
-					"port": "5005",
 					"path": [
 						"user_info_2"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "LeBron"
-						},
-						{
-							"key": "age",
-							"value": "37"
-						},
-						{
-							"key": "salary",
-							"value": "3500"
-						}
 					]
 				}
 			},
