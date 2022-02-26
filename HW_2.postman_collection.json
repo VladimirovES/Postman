@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "e0fb1b02-4bc3-4bf1-8e74-5da05b622714",
+		"name": "HW_2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "first",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body test\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"This is the first responce from server!\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/first",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"first"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "22",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 3. Спарсить responce в json\r",
+							"var resp = pm.response.json(); \r",
+							"\r",
+							"//4. В name из ответа приходит Misha\r",
+							"pm.test(\"Test resp name\", function () {\r",
+							"        pm.expect(resp.name).to.eql(\"Misha\");\r",
+							"}); \r",
+							"//5. В age из ответа приходит 27\r",
+							"pm.test(\"Test resp age\", function () {\r",
+							"       pm.expect(resp.age).to.eql(\"27\");\r",
+							"});\r",
+							"\r",
+							"//6. В salary из ответа приходит 1500\r",
+							"pm.test(\"Test resp salary\", function () {\r",
+							"     pm.expect(resp.salary).to.eql(1500);\r",
+							"});\r",
+							"\r",
+							"// 7.) Спарсить Request\r",
+							"var req = request.data; \r",
+							"\r",
+							"// 8.) Проверить, что из name из ответа = name из запроса\r",
+							"pm.test(\"Test req name\", function () {\r",
+							"    pm.expect(resp.name).to.eql(req.name);\r",
+							"});\r",
+							"\r",
+							"// 9.) Проверить, что из age из ответа = age из запроса\r",
+							"pm.test(\"Test req age\",function() {\r",
+							"    pm.expect(resp.age).to.eql(req.age);\r",
+							"});\r",
+							"// 10.) Проверить, что salary из ответа = salary из запроса\r",
+							"let salary = parseInt(req.salary);\r",
+							"pm.test(\"Test req salary\",function() {\r",
+							"    pm.expect(resp.salary).to.eql(salary);\r",
+							"});\r",
+							"\r",
+							"// 11.) Вывести в консоль параметр family из response\r",
+							"let family_resp = resp.family\r",
+							"console.log(\"family_resp = \", family_resp);\r",
+							"\r",
+							"// 12.) Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)\r",
+							"\r",
+							"pm.test (\"Salary_1.5\", function () {\r",
+							"    pm.expect (family_resp.u_salary_1_5_year).to.eql(req.salary*4)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Misha",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "27",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1500",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "object_info_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status code 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"// 3. Спарсить response body в json.\r",
+							"var resp_1 = pm.response.json();\r",
+							"\r",
+							"// 4. Спарсить request.\r",
+							"var req_1 = pm.request.url.query.toObject();\r",
+							"\r",
+							"// 5. Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"\r",
+							"pm.test(\"Test name: response = request\", function () {\r",
+							"    pm.expect(resp_1.name).to.eql(req_1.name);\r",
+							"});\r",
+							"\r",
+							"// 6. Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"\r",
+							"pm.test(\"Test age: response = request\", function () {\r",
+							"    pm.expect(resp_1.age).to.eql(req_1.age);\r",
+							"});\r",
+							"console.log(\"req.age = \", req_1.age, \"resp.age = \", resp_1.age);\r",
+							"\r",
+							"// 7. Проверить, что salary в ответе равно salary s request (salary забрать из request.)\r",
+							"\r",
+							"let salaryInt = parseInt(req_1.salary);\r",
+							"pm.test(\"Test salary: response = request\", function () {\r",
+							"    pm.expect(resp_1.salary).to.eql(salaryInt)\r",
+							"});\r",
+							"console.log(\"response salary = \", resp_1.salary, \"request salary =\", req_1.salary); // Для проверки\r",
+							"\r",
+							"// 8. Вывести в консоль параметр family из response.\r",
+							"\r",
+							"let fam = resp_1.family;\r",
+							"console.log(\"family = \", fam);\r",
+							"\r",
+							"//9. Проверить, что у параметра dog есть параметры name\r",
+							"\r",
+							"let pets = fam.pets;\r",
+							"let doggy = pets.dog;\r",
+							"\r",
+							"pm.test(\"The dog has a name\", function () {\r",
+							"pm.expect(doggy).to.have.property(\"name\")\r",
+							"});\r",
+							"\r",
+							"//10. Проверить, что у параметра dog есть параметры age\r",
+							"\r",
+							"pm.test(\"The dog has an age\", function() {\r",
+							"pm.expect(doggy).to.have.property(\"age\")\r",
+							"});\r",
+							"\r",
+							"//11. Проверить, что параметр name имеет значение Luky.\r",
+							"\r",
+							"pm.test(\"Dog name\", function () {\r",
+							"    pm.expect(doggy.name).to.eql(\"Luky\")\r",
+							"});\r",
+							"\r",
+							"//12. Проверить, что параметр age имеет значение 4.\r",
+							"pm.test (\"Dog age = 4\", function() {\r",
+							"    pm.expect(doggy.age).to.eql(4)\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/object_info_3?name=LeBron&age=20&salary=500",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "LeBron"
+						},
+						{
+							"key": "age",
+							"value": "20"
+						},
+						{
+							"key": "salary",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "object_info_4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 2.) Статус код 200.\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 3.) Спарсить response body в json.\r",
+							"\r",
+							"let resp_1 = pm.response.json();\r",
+							"\r",
+							"// 4.) Спарсить request.\r",
+							"\r",
+							"let req_1 = pm.request.url.query.toObject();\r",
+							"\r",
+							"// 5.) Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"\r",
+							"pm.test (\"name_resp = name_req\", function () {\r",
+							"    pm.expect(resp_1.name).to.eql(req_1.name)\r",
+							"});\r",
+							"\r",
+							"// 6.) Проверить, что age в ответе равно age из request (age забрать из request.)\r",
+							"\r",
+							"let age_req_Int = parseInt(req_1.age);\r",
+							"pm.test (\"age_resp = age_req\", function () {\r",
+							"    pm.expect(resp_1.age).to.eql(age_req_Int)\r",
+							"});\r",
+							"\r",
+							"// 7.) Вывести в консоль параметр salary из request.\r",
+							"\r",
+							"console.log(\"salary from request = \", req_1.salary);\r",
+							"\r",
+							"// 8.) Вывести в консоль параметр salary из response.\r",
+							"\r",
+							"console.log(\"salary from response = \", resp_1.salary);\r",
+							"\r",
+							"// 9.) Вывести в консоль 0-й элемент параметра salary из response.\r",
+							"\r",
+							"console.log(\"salary 0 element =\", resp_1.salary[0]);\r",
+							"\r",
+							"// 10.) Вывести в консоль 1-й элемент параметра salary параметр salary из response.\r",
+							"\r",
+							"console.log(\"salary 1 element = \", resp_1.salary[1]);\r",
+							"\r",
+							"// 11.) Вывести в консоль 2-й элемент параметра salary параметр salary из response.\r",
+							"\r",
+							"console.log(\"salary 2 element = \", resp_1.salary[2]);\r",
+							"\r",
+							"// 12.) Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)\r",
+							"\r",
+							"let salary_req_Int= parseInt (req_1.salary);\r",
+							"pm.test(\"salary[0] = salary from request\", function (){\r",
+							"    pm.expect(resp_1.salary[0]).to.eql(salary_req_Int);\r",
+							"});\r",
+							"\r",
+							"// 13.) Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)\r",
+							"\r",
+							"let salary_resp_INT_1 = parseInt (resp_1.salary[1]);\r",
+							"pm.test(\"salary[1] = salary*2 from request\", function() {\r",
+							"    pm.expect(salary_resp_INT_1 ).to.eql(salary_req_Int*2)\r",
+							"});\r",
+							"// console.log(salary_req_Int); \r",
+							"// console.log (salary_resp_INT_1 );\r",
+							"\r",
+							"// 14.) Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)\r",
+							"\r",
+							"let salary_resp_INT_2 = parseInt(resp_1.salary[2]);\r",
+							"pm.test(\"salary [2] = salary*3\", function () {\r",
+							"    pm.expect(salary_resp_INT_2).to.eql(salary_req_Int*3)\r",
+							"});\r",
+							"\r",
+							"// 15 Создать в окружении переменную name.+\r",
+							"// 18. Передать в окружение переменную name \r",
+							"\r",
+							"pm.environment.set(\"name\", resp_1.name);\r",
+							"\r",
+							"// 16 Создать в окружении переменную age+\r",
+							"// 19. Передать в окружение переменную salary\r",
+							"\r",
+							"pm.environment.set(\"age\", age_req_Int);\r",
+							"\r",
+							"// 17 Создать в окружении переменную salary +\r",
+							"// 20. Передать в окружение переменную salary\r",
+							"\r",
+							"pm.environment.set(\"salary\",resp_1.salary[0]);\r",
+							"\r",
+							"// 21.  Написать цикл который выведет в консоль по порядку элементы списка из параметра salary\r",
+							"\r",
+							"let salarys = resp_1.salary\r",
+							"let massive  = [salarys[0], salarys[1], salarys[2]];\r",
+							"\r",
+							"for (let i = 0; i < massive.length; i++) {\r",
+							"\tconsole.log(massive[i]);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/object_info_4?name=Polina&age=22&salary=1500",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"object_info_4"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Polina"
+						},
+						{
+							"key": "age",
+							"value": "22"
+						},
+						{
+							"key": "salary",
+							"value": "1500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 5. Статус код 200\r",
+							"\r",
+							"pm.test (\"Status code 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"// 6. Спарсить response body в json.\r",
+							"\r",
+							"let resp = pm.response.json();\r",
+							"\r",
+							"//7. Спарсить request.\r",
+							"\r",
+							"let req = request.data;\r",
+							"\r",
+							"//8. Проверить, что json response имеет параметр start_qa_salary\r",
+							"\r",
+							"pm.test(\"json response have ``start_qa_salary``\", function () {\r",
+							"    pm.response.to.have.jsonBody(\"start_qa_salary\")\r",
+							"});\r",
+							"\r",
+							"// 9. Проверить, что json response имеет параметр qa_salary_after_6_months\r",
+							"\r",
+							"pm.test (\"json resp have ``qa_salary_after_6_months\", function (){\r",
+							"    pm.response.to.have.jsonBody(\"qa_salary_after_6_months\")\r",
+							"});\r",
+							"\r",
+							"// 10. Проверить, что json response имеет параметр qa_salary_after_12_months\r",
+							"\r",
+							"pm.test (\"json response have ``qa_salary_after_12_months\", function (){\r",
+							"    pm.response.to.have.jsonBody(\"qa_salary_after_12_months\")\r",
+							"});\r",
+							"\r",
+							"// 11. Проверить, что json response имеет параметр qa_salary_after_1.5_year\r",
+							"\r",
+							"pm.test (\"json response have ``qa_salary_after_1.5_year\", function (){\r",
+							"    pm.response.to.have.jsonBody(\"qa_salary_after_1.5_year\")\r",
+							"});\r",
+							"\r",
+							"// 12. Проверить, что json response имеет параметр qa_salary_after_3.5_years\r",
+							"\r",
+							"pm.test (\"json response have ``qa_salary_after_3.5_years\", function (){\r",
+							"    pm.response.to.have.jsonBody(\"qa_salary_after_3.5_years\")\r",
+							"});\r",
+							"\r",
+							"// 13. Проверить, что json response имеет параметр person\r",
+							"\r",
+							"pm.test (\"json response have Person\" , function () {\r",
+							"    pm.response.to.have.jsonBody(\"person\")\r",
+							"});\r",
+							"\r",
+							"// 14. Проверить, что параметр start_qa_salary равен salary из request (salary забрать из request.)\r",
+							"\r",
+							"let req_salaryInt = parseInt(req.salary);\r",
+							"\r",
+							"pm.test (\"salary = start_qa_salary\", function (){\r",
+							"    pm.expect(resp.start_qa_salary).to.eql(req_salaryInt)\r",
+							"});\r",
+							"\r",
+							"// 15. Проверить, что параметр qa_salary_after_6_months равен salary*2 из request (salary забрать из request.)\r",
+							"\r",
+							"pm.test (\"after 6 monthts = salary*2\", function (){\r",
+							"    pm.expect(resp.qa_salary_after_6_months).to.eql(req_salaryInt*2)\r",
+							"});\r",
+							"\r",
+							"// console.log(\"6 mon = \", resp.qa_salary_after_6_months);\r",
+							"// console.log(\" salaty x2 = \", req_salaryInt*2);\r",
+							"\r",
+							"// 16. Проверить, что параметр qa_salary_after_12_months равен salary*2.7 из request (salary забрать из request.)\r",
+							"\r",
+							"pm.test (\"salary 12 mon = salary * 2.7\", function (){\r",
+							"    pm.expect(resp.qa_salary_after_12_months).to.eql(req_salaryInt*2.7)\r",
+							"});\r",
+							"\r",
+							"// 17. Проверить, что параметр qa_salary_after_1.5_year равен salary*3.3 из request (salary забрать из request.)\r",
+							"\r",
+							"pm.test (\"qa_salary_after_1.5_year\", function (){\r",
+							"    pm.expect(resp[\"qa_salary_after_1.5_year\"]).to.eql(req_salaryInt*3.3)\r",
+							"\r",
+							"});\r",
+							"// console.log (resp[\"qa_salary_after_1.5_year\"]);\r",
+							"\r",
+							"// 18. Проверить, что параметр qa_salary_after_3.5_years равен salary*3.8 из request (salary забрать из request.)\r",
+							"\r",
+							"pm.test(\"years 3.5 = salary * 3.8\", function (){\r",
+							"    pm.expect(resp[\"qa_salary_after_3.5_years\"]).to.eql(req_salaryInt*3.8)\r",
+							"});\r",
+							"\r",
+							"// 19. Проверить, что в параметре person, 1-й элемент из u_name равен salary из request (salary забрать из request.)\r",
+							"\r",
+							"let person = resp.person;\r",
+							"\r",
+							"let u_name = person.u_name;\r",
+							"\r",
+							"pm.test (\"u_name[1] = salary\", function (){\r",
+							"    pm.expect(u_name[1]).to.eql(req_salaryInt)\r",
+							"});\r",
+							"\r",
+							"// 20. Проверить, что что параметр u_age равен age из request (age забрать из request.)\r",
+							"\r",
+							"let u_age = person.u_age;\r",
+							"\r",
+							"let req_ageInt = parseInt(req.age);\r",
+							"\r",
+							"pm.test(\"u_age = age request\", function (){\r",
+							"    pm.expect(req_ageInt).to.eql(u_age)\r",
+							"});\r",
+							"// console.log (req_ageInt);\r",
+							"\r",
+							"// 21. Проверить, что параметр u_salary_5_years равен salary*4.2 из request (salary забрать из request.)\r",
+							"\r",
+							"let u_salary_5_years = person.u_salary_5_years;\r",
+							"\r",
+							"pm.test(\"u_salary_5_yearsw = salary* 4.2\", function (){\r",
+							"    pm.expect(u_salary_5_years).to.eql(req_salaryInt*4.2)\r",
+							"});\r",
+							"\r",
+							"// 22. ***Написать цикл который выведет в консоль по порядку элементы списка из параметра person.\r",
+							"\r",
+							"let mass = [person.u_age, person.u_name[0], person.u_name[1], person.u_name[2], person.u_salary_5_years];\r",
+							"for (let i = 0; i < mass.length; i++) {\r",
+							"\tconsole.log(mass[i]);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
