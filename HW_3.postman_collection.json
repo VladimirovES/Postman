@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "45dce4d3-c06a-4674-b1e9-954a7f1566a9",
+		"name": "HW_3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let kluch = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"token\", kluch.token);\r",
+							"\r",
+							"console.log (\"token =\", kluch.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "Evgeniy",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "jk123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "/new_data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1) Статус код 200\r",
+							"\r",
+							"pm.test(\"Status 200\", function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"// 2) Проверка структуры json в ответе.\r",
+							"\r",
+							"var schema = {\r",
+							"    \r",
+							"    \"type\":\"object\",\r",
+							"    \"required\":[\"age\",\"name\", \"salary\"],\r",
+							"    \"properties\": {\r",
+							"        \"age\":{\"type\":\"number\"},\r",
+							"        \"name\":{\"type\":\"string\"},\r",
+							"        \"salary\":{\"type\": \"array\"},\r",
+							"    }\r",
+							"    \r",
+							"};\r",
+							"\r",
+							"var resp = pm.response.json();    \r",
+							"\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(resp, schema)).to.be.true;\r",
+							"\r",
+							"});\r",
+							"\r",
+							"// console.log(tv4.error.dataPath);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/new_data",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"new_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/test_pet_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1) Статус код 200\r",
+							"\r",
+							"pm.test(\"status 200\", function (){\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"// 2) Проверка структуры json в ответе.\r",
+							"\r",
+							"var schema = {\r",
+							"    \"type\":\"object\",\r",
+							"     \"required\":[\"age\",\"daily_food\", \"daily_sleep\", \"name\"],\r",
+							"    \"properties\": {\r",
+							"    \"age\":{\"type\":\"number\"},\r",
+							"    \"daily_food\":{\"type\":\"number\"},\r",
+							"    \"daily_sleep\":{\"type\":\"number\"},\r",
+							"    \"name\":{\"type\":\"string\"}\r",
+							"    }\r",
+							"\r",
+							"};\r",
+							"\r",
+							"var resp = pm.response.json(); \r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(resp, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"// Консоль для нахождения ошибок\r",
+							"// console.log(tv4.error.dataPath);\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "weight",
+							"value": "55",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/test_pet_info",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"test_pet_info"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
