@@ -14,7 +14,6 @@
 						"exec": [
 							"let kluch = pm.response.json();\r",
 							"\r",
-							"\r",
 							"pm.environment.set(\"token\", kluch.token);\r",
 							"\r",
 							"console.log (\"token =\", kluch.token);"
@@ -54,10 +53,49 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "/user_info - не работает",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}\n",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info"
+					]
+				}
 			},
 			"response": []
 		},
@@ -83,20 +121,64 @@
 							"    \"properties\": {\r",
 							"        \"age\":{\"type\":\"number\"},\r",
 							"        \"name\":{\"type\":\"string\"},\r",
-							"        \"salary\":{\"type\": \"array\"},\r",
+							"        \"salary\":{\r",
+							"        \"type\": \"array\",\r",
+							"        \"items\": [\r",
+							"            {\"type\":\"number\"},\r",
+							"            {\"type\":\"string\"},\r",
+							"            {\"type\":\"string\"}\r",
+							"        ]\r",
+							"        }\r",
 							"    }\r",
-							"    \r",
 							"};\r",
+							"    \r",
 							"\r",
 							"var resp = pm.response.json();    \r",
-							"\r",
 							"\r",
 							"pm.test('Schema is valid', function () {\r",
 							"    pm.expect(tv4.validate(resp, schema)).to.be.true;\r",
 							"\r",
 							"});\r",
 							"\r",
-							"// console.log(tv4.error.dataPath);"
+							"// console.log(tv4.error.dataPath);\r",
+							"\r",
+							"// 3) В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.\r",
+							"\r",
+							"let req = request.data;\r",
+							"let salary_req = req.salary;\r",
+							"let salaryInt_req = parseInt(salary_req);\r",
+							"\r",
+							"let first = resp.salary[0];\r",
+							"\r",
+							"let second = resp.salary[1];\r",
+							"let secondInt = parseInt(second);\r",
+							"\r",
+							"let third = resp.salary[2];\r",
+							"let thirdInt = parseInt(third);\r",
+							"\r",
+							"let salaryInt = parseInt(resp.salary);\r",
+							"\r",
+							"pm.test (\"Salary = Salary [0]\", function (){\r",
+							"    pm.expect(salaryInt_req).to.eql(first)\r",
+							"});\r",
+							"\r",
+							"console.log(\"salary from request = \", salaryInt_req, \"Salary from response [0] = \", first);\r",
+							"\r",
+							"pm.test (\"salary *2 = salary[1]\", function (){\r",
+							"    pm.expect(salaryInt_req*2).to.eql(secondInt)\r",
+							"});\r",
+							"\r",
+							"console.log(\"salary from request x2 = \", salaryInt_req*2, \"Salary from response [1] = \", secondInt);\r",
+							"\r",
+							"pm.test (\"salary*3 = salary [2]\", function (){\r",
+							"    pm.expect(thirdInt/salaryInt_req).to.eql(3)\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"2312\",function(){\r",
+							"//     pm.expect(thirdInt/salaryInt_req).to.\r",
+							"// }\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -182,6 +264,32 @@
 							"\r",
 							"// Консоль для нахождения ошибок\r",
 							"// console.log(tv4.error.dataPath);\r",
+							"\r",
+							"// 3) В ответе указаны коэффициенты умножения salary, напишите тесты по проверке правильности результата перемножения на коэффициент.\r",
+							"\r",
+							"let req =request.data;\r",
+							"\r",
+							"let weight = req.weight;\r",
+							"\r",
+							"let weightInt = parseInt(weight);\r",
+							"\r",
+							"let k_f = (resp.daily_food)/(weightInt);\r",
+							"console.log (k_f);\r",
+							"\r",
+							"pm.test (\"Коэф. еды\", function () {\r",
+							"    pm.expect(k_f).to.eql(0.012)\r",
+							"});\r",
+							"\r",
+							"let k_s = (resp.daily_sleep)/(weightInt);\r",
+							"console.log(k_s);\r",
+							"\r",
+							"pm.test (\"Коэф. сна\", function (){\r",
+							"    pm.expect(k_s).to.eql(2.5)\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
 							"\r",
 							"\r",
 							"\r",
