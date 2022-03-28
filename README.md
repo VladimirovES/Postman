@@ -19,17 +19,19 @@ let get_params = pm.request.url.query.toObject()
 
 Установка переменных
 Глобальные переменные
-
+```
 pm.globals.set('variable name', "value");
+```
 Локальная переменная 
-
+```
 var variable_name = value;
+```
 Переменная среды
-
+```
 pm.environment.set('variable_name' , 'value');
+```
 
-
-Получение переменных
+Получение переменных:
 Глобальные переменные
 
 pm.globals.get('variable_name');
@@ -91,10 +93,12 @@ pm.expect(pm.response.code).to.be.oneOf([status_code, status_code]);
 
 
 Время ответа
+```
 pm.expect(pm.response.responseTime.to.be.below(time));
-
+```
 
 Проверка значения JSON
+```
 pm.test("Your_Test_Name", function(){
 
 var jsonData = pm.response.json();
@@ -102,15 +106,15 @@ var jsonData = pm.response.json();
 pm.expect(jsonData.value).to.eql(value);
 
 });
-
+```
 
 Заголовок содержит Content-Type
+```
 pm.test("Your_Test_Name", function(){
-
 pm.response.to.have.header("Content-Type");
 
 });
-
+```
 
 Ответ содержит куки sessionID
 pm.expect(pm.cookies.has('sessionID')).to.be.true;
