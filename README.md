@@ -102,6 +102,7 @@ pm.expect(pm.response.code).to.be.oneOf([status_code, status_code]);
 ```
 pm.expect(pm.response.responseTime.to.be.below(time));
 ```
+![icon_128x128](https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png)
 
 Проверка значения JSON
 ```
