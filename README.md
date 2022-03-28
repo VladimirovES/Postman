@@ -1,4 +1,5 @@
-# Postman
+# Postman ![icon_56x56](https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png)
+
 ## Спарсить request
 
 POST raw
@@ -94,15 +95,14 @@ pm.response.to.have.body("string you want to check");
 
 pm.response.to.have.status(status_code);
 Несколько статус кодов
-
+```
 pm.expect(pm.response.code).to.be.oneOf([status_code, status_code]);
-
+```
 
 Время ответа
 ```
 pm.expect(pm.response.responseTime.to.be.below(time));
 ```
-![icon_128x128](https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png)
 
 Проверка значения JSON
 ```
