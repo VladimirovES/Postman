@@ -75,12 +75,12 @@ pm.environment.clear();
 Различные коды относящиеся к ответам запроса
 
 Ответ содержит строку
-
+```
 pm.test("String found", function(){
 
 pm.expect(pm.response.text()).to.include("string you want to search");
-
 });
+```
 Тело ответа равно строке
 ```
 pm.test("Body is equal to string", function(){
@@ -155,14 +155,15 @@ JSON ответ
 
 var jsonData = pm.response.json();
 Проверить количество массивов в ответе
-
+```
 pm.test("ISBN Count", function () {
 pm.expect(2).to.eql(pm.response.json().arrayName.length);
 });
+```
 Проверить конкретное значение внутри массива
 
 В этом примере проверяется конкретный номер ISBN среди всех книг, полученных в ответе, и возвращается значение true, если оно найдено.
-
+```
 pm.test("Test Name", function () {
 var result;
 for (var loop = 0; loop < pm.response.json().arrayName.length; loop++)
@@ -174,36 +175,39 @@ break;
 }
 pm.expect(true).to.eql(result);
 });
+```
 В двух приведенных выше примерах использовался Javascript, поскольку Postman Sandbox работает с javascript. Этот код не имеет конкретного отношения к Postman. 
 
 Проверить значение
-
+```
 pm.expect(jsonData.age).to.eql(value);
-
 pm.expect(jsonData.name).to.eql("string");
+```
 Преобразование тела XML в объект JSON
-
+```
 var jsonObject = xml2Json(responseBody);
-
+```
 
 Рабочие процессы
 Установка следующего запроса 
-
+```
 postman.setNextRequest("Request Name");
+```
 Прекратить выполнение запроса
-
+```
 postman.setNextRequest(null);
-
+```
 
 Библиотека ассертов Chai
 Найти число в массиве
-
+```
 pm.test(“Number included”, function(){
 pm.expect([1,2,3]).to.include(3);
 });
+```
 Проверить, пустой ли массив
-
+```
 pm.test(“Empty Array”, function(){
 pm.expect([2]).to.be.an(‘array’).that.is.empty;
 });
-
+```
