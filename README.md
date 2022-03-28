@@ -127,33 +127,38 @@ pm.response.to.have.header("Content-Type");
 ```
 
 Ответ содержит куки sessionID
+```
 pm.expect(pm.cookies.has('sessionID')).to.be.true;
-
+```
 
 Тело ответа
 Код относящийся к телу ответа
 
 Точное совпадение
-
+```
 pm.response.to.have.body("OK");
 pm.response.to.have.body('{"success"=true}');
+```
+
 Частичное совпадение
-
+```
 pm.expect(pm.response.text()).to.include('ToolsQA');
-
+```
 
 Отправить асинхронный запрос
+```
 pm.sendRequest("https://postman-echo.com/get", function(err, response){
 
 console.log(response.json());
 
 });
-
+```
 
 JSON ответ 
 Распарсить тело
-
+```
 var jsonData = pm.response.json();
+```
 Проверить количество массивов в ответе
 ```
 pm.test("ISBN Count", function () {
