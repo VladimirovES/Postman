@@ -36,31 +36,36 @@ pm.environment.set('variable_name' , 'value');
 ```
 pm.globals.get('variable_name');
 ```
-____Переменная среды
-
+Переменная среды
+```
 pm.environment.get('varibable_name');
+```
 Переменная данных
-
+```
 pm.iterationData.get('variable_name');
+```
 Локальная переменная
-
+```
 variable_name;
+```
 
-
-Очистка переменных
+# Очистка переменных:
 Глобальные переменные (только одна)
-
+```
 pm.globals.unset('variable_name');
+```
 Глобальные переменные (все)
-
+```
 pm.globals.clear();
+```
 Переменная среды (только одна)
-
+```
 pm.environment.unset('variable_name');
+```
 Переменная среды (все)
-
+```
 pm.environment.clear();
-
+```
 
 Ассерты
 Ответ
