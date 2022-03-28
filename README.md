@@ -82,20 +82,21 @@ pm.expect(pm.response.text()).to.include("string you want to search");
 
 });
 Тело ответа равно строке
-
+```
 pm.test("Body is equal to string", function(){
 
 pm.response.to.have.body("string you want to check");
  
 });
-
+```
 
 Статус код
 Код, относящийся к статус кодам в Postman
 
 Один статус код
-
+```
 pm.response.to.have.status(status_code);
+```
 Несколько статус кодов
 ```
 pm.expect(pm.response.code).to.be.oneOf([status_code, status_code]);
