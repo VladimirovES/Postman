@@ -1,4 +1,7 @@
-# Postman ![icon_10x10](https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png)
+# Postman 
+<div>
+  <img src="https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png" width="40px"/>
+</div>  
 
 ## Спарсить request
 
