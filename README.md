@@ -31,11 +31,12 @@ var variable_name = value;
 pm.environment.set('variable_name' , 'value');
 ```
 
-Получение переменных:
+# Получение переменных:
 Глобальные переменные
-
+```
 pm.globals.get('variable_name');
-Переменная среды
+```
+____Переменная среды
 
 pm.environment.get('varibable_name');
 Переменная данных
