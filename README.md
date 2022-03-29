@@ -1,7 +1,9 @@
 <div>
+  <p align='Center'>
   <a href ="https://www.chaijs.com/">
   <img src="https://user-images.githubusercontent.com/99370940/160435038-7f0a69f0-f4aa-49f9-a8eb-86198977e167.png" width="40px"/>
   </a>
+  </p>
 </div>  
 
 ## Спарсить request
