@@ -1,0 +1,5867 @@
+{
+	"info": {
+		"_postman_id": "cd9fdcd2-8236-4d6c-994b-c287d4d35f84",
+		"name": "LIIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19347814"
+	},
+	"item": [
+		{
+			"name": "LIIS Test v.1",
+			"item": [
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Get posts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is  200\", function () {",
+											"    pm.response.to.has.status(200);",
+											"});",
+											"",
+											"// Валидация JSON схемы",
+											"",
+											"var schema = {",
+											"    \"type\": \"array\",",
+											"    \"default\": [],",
+											"    \"title\": \"Root Schema\",",
+											"    \"items\": {",
+											"        \"type\": \"object\",",
+											"        \"default\": {},",
+											"        \"title\": \"A Schema\",",
+											"        \"required\": [",
+											"            \"content\",",
+											"            \"id\",",
+											"            \"publication_datetime\",",
+											"            \"title\",",
+											"            \"author\"",
+											"        ],",
+											"        \"properties\": {",
+											"            \"content\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The content Schema\",",
+											"                \"examples\": [",
+											"                    \"hello\"",
+											"                ]",
+											"            },",
+											"            \"id\": {",
+											"                \"type\": \"integer\",",
+											"                \"default\": 0,",
+											"                \"title\": \"The id Schema\",",
+											"                \"examples\": [",
+											"                    11",
+											"                ]",
+											"            },",
+											"            \"publication_datetime\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The publication_datetime Schema\",",
+											"                \"examples\": [",
+											"                    \"2022-05-31T13:16:51.910792\"",
+											"                ]",
+											"            },",
+											"            \"title\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The title Schema\",",
+											"                \"examples\": [",
+											"                    \"my new title\"",
+											"                ]",
+											"            },",
+											"            \"author\": {",
+											"                \"type\": \"integer\",",
+											"                \"default\": 0,",
+											"                \"title\": \"The author Schema\",",
+											"                \"examples\": [",
+											"                    4",
+											"                ]",
+											"            }",
+											"        },",
+											"        \"examples\": [{",
+											"            \"content\": \"hello\",",
+											"            \"id\": 11,",
+											"            \"publication_datetime\": \"2022-05-31T13:16:51.910792\",",
+											"            \"title\": \"my new title\",",
+											"            \"author\": 4",
+											"        }]",
+											"    },",
+											"    \"examples\": [",
+											"        [{",
+											"            \"content\": \"hello\",",
+											"            \"id\": 11,",
+											"            \"publication_datetime\": \"2022-05-31T13:16:51.910792\",",
+											"            \"title\": \"my new title\",",
+											"            \"author\": 4",
+											"        }]",
+											"    ]",
+											"}",
+											"    ",
+											"    ",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"",
+											"var array = resp[0];",
+											"console.log(array)",
+											"",
+											"// Проверка что приходит в json",
+											"",
+											"pm.test (\"Response is an array\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Array\")",
+											"});",
+											"",
+											"pm.test (\"Objects inside an array. Count of objects = \" + pm.response.json().length, function () {",
+											"    pm.expect(resp[0]).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'content' key\", function () {",
+											"    pm.expect(array).to.has.property(\"content\")",
+											"});",
+											"pm.test(\"Response has a 'id' key\", function () {",
+											"    pm.expect(array).to.has.property(\"id\")",
+											"});",
+											"pm.test(\"Response has a 'publication_datetime' key\", function () {",
+											"    pm.expect(array).to.has.property(\"publication_datetime\")",
+											"});",
+											"pm.test(\"Response has a 'title key'\", function () {",
+											"    pm.expect(array).to.has.property(\"title\")",
+											"});",
+											"pm.test(\"Response has a 'author' key\", function () {",
+											"    pm.expect(array).to.has.property(\"author\")",
+											"});",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"",
+											"pm.test (\"'content' is a string\" , function () {",
+											"    pm.expect(array.content).to.be.a(\"string\")",
+											"});",
+											"",
+											"pm.test (\"'id' is a number\" , function () {",
+											"    pm.expect(array.id).to.be.a(\"number\")",
+											"});",
+											"",
+											"pm.test (\"'publication_datetime' is a string\" , function () {",
+											"    pm.expect(array.publication_datetime).to.be.a(\"string\")",
+											"});",
+											"",
+											"pm.test (\"'title' is a string\" , function () {",
+											"    pm.expect(array.title).to.be.a(\"string\")",
+											"});",
+											"pm.test (\"'author' is a string\" , function () {",
+											"    pm.expect(array.author).to.be.a(\"number\")",
+											"});",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_get\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Статус код 201",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"content\",",
+											"        \"id\",",
+											"        \"publication_datetime\",",
+											"        \"title\",",
+											"        \"author\"",
+											"        ",
+											"        ",
+											"        ",
+											"    ],",
+											"    \"properties\": {",
+											"        \"content\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The content Schema\",",
+											"            \"examples\": [",
+											"                \"post\"",
+											"            ]",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The id Schema\",",
+											"            \"examples\": [",
+											"                16",
+											"            ]",
+											"        },",
+											"        \"publication_datetime\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The publication_datetime Schema\",",
+											"            \"examples\": [",
+											"                \"2022-05-31T14:20:58.336087\"",
+											"            ]",
+											"        },",
+											"        \"title\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The title Schema\",",
+											"            \"examples\": [",
+											"                \"test\"",
+											"            ]",
+											"        },",
+											"        \"author\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The author Schema\",",
+											"            \"examples\": [",
+											"                4",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"content\": \"post\",",
+											"        \"id\": 16,",
+											"        \"publication_datetime\": \"2022-05-31T14:20:58.336087\",",
+											"        \"title\": \"test\",",
+											"        \"author\": 4",
+											"    }]",
+											"}",
+											"  ",
+											"   ",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"// Title запроса = Title ответа",
+											"",
+											"let req = JSON.parse(request.data);",
+											"let title_req = req.title;",
+											"let title_resp = resp.title;",
+											"",
+											"pm.test(\"request 'title' = response 'title'\", function (){",
+											"    pm.expect(title_req).to.eql(title_resp)",
+											"});",
+											"",
+											"console.log(title_req + '='+ title_resp )",
+											"",
+											"// Content запроса = Content ответа",
+											"",
+											"let content_req = req.content;",
+											"let content_resp = resp.content;",
+											"",
+											"pm.test(\"request 'content' = response 'content'\", function (){",
+											"    pm.expect(content_req).to.eql(content_resp)",
+											"});",
+											"",
+											"console.log(content_req + '='+ content_resp )",
+											"",
+											"// Проверка наличия всех ключей",
+											"",
+											"pm.test (\"Response has a 'content' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"content\")",
+											"});",
+											"pm.test (\"Response has a 'id' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"id\")",
+											"});",
+											"pm.test (\"Response has a 'publication_datetime' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"publication_datetime\")",
+											"});",
+											"pm.test (\" Response has a 'title' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"title\")",
+											"});",
+											"pm.test (\"Response has a 'author' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"author\")",
+											"});",
+											"",
+											"",
+											"// Количество ключей в ответе",
+											"",
+											"var count = Object.keys(resp).length;",
+											"pm.test(\"Count of response keys = 5\", function(){",
+											"pm.expect(count).to.eql(5);",
+											"});",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'сontent' value is a string\", function() {",
+											"    pm.expect(resp.content).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'id' value is a number\", function() {",
+											"    pm.expect(resp.id).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'publication_datetime' value is a string\", function() {",
+											"    pm.expect(resp.publication_datetime).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'title' value is a string\", function() {",
+											"    pm.expect(resp.title).to.be.a('string');",
+											"   });",
+											"",
+											"  pm.test (\"'author' value is a number\", function() {",
+											"    pm.expect(resp.author).to.be.a('number');",
+											"   }); ",
+											"",
+											"",
+											"// При превыщающем количестве символов",
+											"",
+											"",
+											"pm.test(\"'title' not longer than maximum length 80\", () => {",
+											"    pm.expect(title_req.length).to.below(81)",
+											"})",
+											"console.log(title_req.length)",
+											"",
+											"",
+											"pm.test(\"'content' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.content.length).to.below(181)",
+											"})",
+											"",
+											"",
+											"",
+											" ",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test\",\n    \"content\": \"ProverkaProverkaProverka\"\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post post (unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"// Негативный тест, если пользователь не авторизован",
+											"",
+											"pm.test(\"Status code is 401. UNAUTHORIZED\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"var schema = {",
+											"        \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"Could not verify your login!\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"error\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"Could not verify your login!\",",
+											"        \"type\": \"error\"",
+											"    }]",
+											"}",
+											"",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"    ",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"// Title запроса = Title ответа",
+											"",
+											"let req = JSON.parse(request.data);",
+											"let title_req = req.title;",
+											"let title_resp = resp.title;",
+											"",
+											"",
+											"// Проверка наличия всех ключей",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'content' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка значений в ответе",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"pm.test('\"WWW-Authenticate\" header is present', function(){",
+											"pm.response.to.has.header(\"WWW-Authenticate\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameInvalid}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test\",\n    \"content\": \"Proverka\"\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"// Валидация JSON схемы",
+											"",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"author\",",
+											"        \"content\",",
+											"        \"id\",",
+											"        \"publication_datetime\",",
+											"        \"title\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"author\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The author Schema\",",
+											"            \"examples\": [",
+											"                4",
+											"            ]",
+											"        },",
+											"        \"content\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The content Schema\",",
+											"            \"examples\": [",
+											"                \"hello\"",
+											"            ]",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The id Schema\",",
+											"            \"examples\": [",
+											"                11",
+											"            ]",
+											"        },",
+											"        \"publication_datetime\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The publication_datetime Schema\",",
+											"            \"examples\": [",
+											"                \"2022-05-31T13:16:51.910792\"",
+											"            ]",
+											"        },",
+											"        \"title\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The title Schema\",",
+											"            \"examples\": [",
+											"                \"my new title\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"author\": 4,",
+											"        \"content\": \"hello\",",
+											"        \"id\": 11,",
+											"        \"publication_datetime\": \"2022-05-31T13:16:51.910792\",",
+											"        \"title\": \"my new title\"",
+											"    }]",
+											"}",
+											"    ",
+											"    ",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Переменная: массив в ответе",
+											"",
+											"var array = resp[0];",
+											"console.log(array)",
+											"",
+											"// Наличие ключей в ответе",
+											" ",
+											"pm.test (\"Response has a 'content' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"content\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'id' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"id\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'publication_datetime' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"publication_datetime\")",
+											"});",
+											"",
+											"pm.test (\" Response has a 'title' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"title\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'author' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"author\")",
+											"});",
+											"",
+											"var count_resp = Object.keys(resp).length;",
+											"pm.test(\"Count of response keys:values = 5\", function(){",
+											"pm.expect(count_resp).to.eql(5);",
+											"",
+											"});",
+											"// Тип данных в ответе ",
+											"",
+											"",
+											"pm.test (\"content' value is a string\", function() {",
+											"    pm.expect(resp.content).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"id' value is a number\", function() {",
+											"    pm.expect(resp.id).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'publication_datetime' value is a string\", function() {",
+											"    pm.expect(resp.publication_datetime).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'title' value is a string\", function() {",
+											"    pm.expect(resp.title).to.be.a('string');",
+											"   });",
+											"",
+											"  pm.test (\"'author' value is a number\", function() {",
+											"    pm.expect(resp.author).to.be.a('number');",
+											"   }); ",
+											"",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_get\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"var req = JSON.parse(request.data);",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"pm.test (\"'message' has a 'update' value \" , function () {",
+											"    pm.expect(resp.message).to.eql('updated')}",
+											");",
+											"",
+											"pm.test (\"'type' has a 'success' value  \" , function () {",
+											"    pm.expect(resp.type).to.eql('success')}",
+											");",
+											"",
+											"",
+											"// Количество ключей в ответе",
+											"",
+											"var count = Object.keys(resp).length;",
+											"pm.test(\"Count of response keys = 2\", function(){",
+											"pm.expect(count).to.eql(2);",
+											"});",
+											"",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"",
+											"   // Валидация при превыщающем количестве символов",
+											"",
+											"pm.test(\"'title' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.title.length).to.below(81)",
+											"})",
+											"",
+											"pm.test(\"'content' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.content.length).to.below(181)",
+											"})",
+											"",
+											"",
+											"// Проверка headers",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_put\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"my new ti))tle\",\n    \"content\": \"hello)))\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put post (anuthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 401. Unauthorized.\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test('\"WWW-Authenticate\" header is present', function(){",
+											"pm.response.to.has.header(\"WWW-Authenticate\");",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_put\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameInvalid}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"my new title\",\n    \"content\": \"hello\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put post (forbidden)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 403. Forbidden.\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"// Значение в ответе",
+											"",
+											"pm.test (\"Response 'message' value  =  Forbidden\", function() {",
+											"    pm.expect(resp.message).to.eql('Forbidden');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = error\", function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"// Не уверен, что это нужно. ",
+											"// Если раскоментить, pre-request и test то можно тестировать не отправляя повторно из энд-поинта post post",
+											"  ",
+											"// const del = {",
+											"//     url: 'https://hr.recruit.liis.su/qa0/v1/api/vladimiroves.qa@gmail.com/post/'+pm.collectionVariables.get(\"id_post_com\"),",
+											"//     method: 'DELETE',",
+											"//     header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"//     'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"   ",
+											"// };",
+											"",
+											"// pm.sendRequest(del, function (err, res) {",
+											"  ",
+											"//           console.log(err);",
+											"//           console.log(res);",
+											"//         console.log('delete post id =' + pm.collectionVariables.get(\"id_post_com\"))",
+											"// });",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_put\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameFordbidden}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"my new title\",\n    \"content\": \"hello\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is  204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											"",
+											"",
+											"tests[\"Response body is empty\"] = responseBody.length==0;",
+											"",
+											"// Наличие Headers",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_delete\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post (Redelete post)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// const post = {",
+											"//     url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"//     method: 'POST',",
+											"//     header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"//     },",
+											"//     body: {",
+											"//              mode:'raw',",
+											"//      raw: JSON.stringify(",
+											"//     {",
+											"        ",
+											"//     \"title\": \"Test\",",
+											"//     \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"//     })",
+											"//     }",
+											"// };",
+											"",
+											"",
+											"// pm.sendRequest(post, function (err, res) {",
+											"//     var jsonData = res.json();",
+											"//           console.log(err);",
+											"//           console.log(res);",
+											"//             pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"//     console.log('Create id_post = ' + pm.collectionVariables.get(\"id_post\"))",
+											"// });",
+											"",
+											"",
+											"// const del = {",
+											"//     url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/post/\"+pm.collectionVariables.get(\"id_post\"),",
+											"//     method: 'DELETE',",
+											"//     header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'}",
+											"  ",
+											"// };",
+											"// console.log(\"id_post = \" + pm.collectionVariables.get(\"id_post\"))",
+											"",
+											"// pm.sendRequest(del, function (err, res) {",
+											"    ",
+											"//           console.log(err);",
+											"//           console.log(res);",
+											"// });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404. Redelete post\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// Создание и удаление поста",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create id_post = ' + pm.collectionVariables.get(\"id_post\"))",
+											"});",
+											"",
+											"",
+											"const del = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/post/\"+pm.collectionVariables.get(\"id_post\"),",
+											"    method: 'DELETE',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'}",
+											"  ",
+											"};",
+											"console.log(\"id_post = \" + pm.collectionVariables.get(\"id_post\"))",
+											"",
+											"pm.sendRequest(del, function (err, res) {",
+											"    ",
+											"          console.log(err);",
+											"          console.log(res);",
+											"});",
+											"",
+											"",
+											"var schema =",
+											"{",
+											"    \"$schema\": \"https://json-schema.org/draft/2019-09/schema\",",
+											"    \"$id\": \"http://example.com/example.json\",",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"Post not found\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"error\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"Post not found\",",
+											"        \"type\": \"error\"",
+											"    }]",
+											"}",
+											"",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка наличия всех ключей",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'content' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка значений в ответе",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Post not found');",
+											"   });",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post (forbidden)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 403. Forbidden.\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  =  Forbidden\", function() {",
+											"    pm.expect(resp.message).to.eql('Forbidden');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = error\", function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'",
+											"    },",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        ",
+											"    \"title\": \"Test\",",
+											"    \"content\": \"ProverkaProverkaProverka\"",
+											"    ",
+											"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post\", jsonData.id);",
+											"           ",
+											"    console.log('Create   from Pre-request srtipt = ' + pm.collectionVariables.get(\"id_put\"))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameFordbidden}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post (unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 401. Unauthorized.\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test('\"WWW-Authenticate\" header is present', function(){",
+											"pm.response.to.has.header(\"WWW-Authenticate\");",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "somesad",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/{{id_post}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Get comments",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"            console.log(err);",
+											"          console.log(res);",
+											"         ",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is  200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var schema = {",
+											"   \"type\": \"array\",",
+											"    \"default\": [],",
+											"    \"title\": \"Root Schema\",",
+											"    \"items\": {",
+											"        \"type\": \"object\",",
+											"        \"default\": {},",
+											"        \"title\": \"A Schema\",",
+											"        \"required\": [",
+											"            \"content\",",
+											"            \"id\",",
+											"            \"post\",",
+											"            \"publication_datetime\",",
+											"            \"title\",",
+											"            \"author\"",
+											"        ],",
+											"        \"properties\": {",
+											"            \"content\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The content Schema\",",
+											"                \"examples\": [",
+											"                    \"Pro1v2erka\"",
+											"                ]",
+											"            },",
+											"            \"id\": {",
+											"                \"type\": \"integer\",",
+											"                \"default\": 0,",
+											"                \"title\": \"The id Schema\",",
+											"                \"examples\": [",
+											"                    6",
+											"                ]",
+											"            },",
+											"            \"post\": {",
+											"                \"type\": \"integer\",",
+											"                \"default\": 0,",
+											"                \"title\": \"The post Schema\",",
+											"                \"examples\": [",
+											"                    147",
+											"                ]",
+											"            },",
+											"            \"publication_datetime\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The publication_datetime Schema\",",
+											"                \"examples\": [",
+											"                    \"2022-06-01T09:14:45.093363\"",
+											"                ]",
+											"            },",
+											"            \"title\": {",
+											"                \"type\": \"string\",",
+											"                \"default\": \"\",",
+											"                \"title\": \"The title Schema\",",
+											"                \"examples\": [",
+											"                    \"Tes2t\"",
+											"                ]",
+											"            },",
+											"            \"author\": {",
+											"                \"type\": \"integer\",",
+											"                \"default\": 0,",
+											"                \"title\": \"The author Schema\",",
+											"                \"examples\": [",
+											"                    4",
+											"                ]",
+											"            }",
+											"        },",
+											"        \"examples\": [{",
+											"            \"content\": \"Pro1v2erka\",",
+											"            \"id\": 6,",
+											"            \"post\": 147,",
+											"            \"publication_datetime\": \"2022-06-01T09:14:45.093363\",",
+											"            \"title\": \"Tes2t\",",
+											"            \"author\": 4",
+											"        }]",
+											"    },",
+											"    \"examples\": [",
+											"        [{",
+											"            \"content\": \"Pro1v2erka\",",
+											"            \"id\": 6,",
+											"            \"post\": 147,",
+											"            \"publication_datetime\": \"2022-06-01T09:14:45.093363\",",
+											"            \"title\": \"Tes2t\",",
+											"            \"author\": 4",
+											"        }]",
+											"    ]",
+											"}",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"",
+											"var array = resp[0];",
+											"console.log(array)",
+											"",
+											"// Ответ в json",
+											"",
+											"pm.test (\"Response is an array\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Array\")",
+											"});",
+											"",
+											"pm.test (\"Object inside an array. Count of objects = \" + pm.response.json().length , function () {",
+											"    pm.expect(resp[0]).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'content' key\", function () {",
+											"    pm.expect(array).to.has.property(\"content\")",
+											"});",
+											"pm.test(\"Response has a 'id' key\", function () {",
+											"    pm.expect(array).to.has.property(\"id\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'post' key\", function () {",
+											"    pm.expect(array).to.have.property(\"post\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'publication_datetime' key\", function () {",
+											"    pm.expect(array).to.have.property(\"publication_datetime\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'title' key\", function () {",
+											"    pm.expect(array).to.have.property(\"title\")",
+											"});",
+											"",
+											"pm.test(\"Response has a 'author' key\", function () {",
+											"    pm.expect(array).to.have.property(\"author\")",
+											"});",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'content' is a string\" , function () {",
+											"    pm.expect(array.content).to.be.a(\"string\")",
+											"});",
+											"",
+											"pm.test (\"'id' is a number\" , function () {",
+											"    pm.expect(array.id).to.be.a(\"number\")",
+											"});",
+											"",
+											"pm.test (\"'post' is a number\" , function () {",
+											"    pm.expect(array.id).to.be.a(\"number\")",
+											"});",
+											"",
+											"pm.test (\"'publication_datetime' is a string\" , function () {",
+											"    pm.expect(array.publication_datetime).to.be.a(\"string\")",
+											"});",
+											"",
+											"pm.test (\"'title' is a string\" , function () {",
+											"    pm.expect(array.title).to.be.a(\"string\")",
+											"});",
+											"pm.test (\"'author' is a number\" , function () {",
+											"    pm.expect(array.author).to.be.a(\"number\")",
+											"});",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"// Валидация JSON схема",
+											"var schema = {",
+											"",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"content\",",
+											"        \"id\",",
+											"        \"post\",",
+											"        \"publication_datetime\",",
+											"        \"title\",",
+											"        \"author\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"content\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The content Schema\",",
+											"            \"examples\": [",
+											"                \"Pr1over1ka\"",
+											"            ]",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The id Schema\",",
+											"            \"examples\": [",
+											"                10",
+											"            ]",
+											"        },",
+											"        \"post\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The post Schema\",",
+											"            \"examples\": [",
+											"                133",
+											"            ]",
+											"        },",
+											"        \"publication_datetime\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The publication_datetime Schema\",",
+											"            \"examples\": [",
+											"                \"2022-06-01T07:39:35.954060\"",
+											"            ]",
+											"        },",
+											"        \"title\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The title Schema\",",
+											"            \"examples\": [",
+											"                \"Test\"",
+											"            ]",
+											"        },",
+											"        \"author\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The author Schema\",",
+											"            \"examples\": [",
+											"                4",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"content\": \"Pr1over1ka\",",
+											"        \"id\": 10,",
+											"        \"post\": 133,",
+											"        \"publication_datetime\": \"2022-06-01T07:39:35.954060\",",
+											"        \"title\": \"Test\",",
+											"        \"author\": 4",
+											"    }]",
+											"}",
+											"",
+											"",
+											"",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.collectionVariables.set(\"id_post_comment\", resp.id);",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка наличия всех ключей",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"",
+											"pm.test (\"Response has a 'content' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"content\")",
+											"});",
+											"pm.test (\"Response has a 'id' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"id\")",
+											"});",
+											"pm.test (\"Response has a 'post' key\" , function () {",
+											"    pm.response.to.have.jsonBody('post')",
+											"});",
+											"pm.test (\"Response has a 'publication_datetime' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"publication_datetime\")",
+											"});",
+											"pm.test (\" Response has a 'title' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"title\")",
+											"});",
+											"pm.test (\"Response has a 'author' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"author\")",
+											"});",
+											"",
+											"//Количество ключей в ответе",
+											"",
+											"var count = Object.keys(resp).length;",
+											"pm.test(\"Count of response keys = 6\", function(){",
+											"pm.expect(count).to.eql(6);",
+											"});",
+											"",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'сontent' is a string\", function() {",
+											"    pm.expect(resp.content).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'id' is a number\", function() {",
+											"    pm.expect(resp.id).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'post' is a number\", function() {",
+											"    pm.expect(resp.post).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'publication_datetime' is a string\", function() {",
+											"    pm.expect(resp.publication_datetime).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'title' is a string\", function() {",
+											"    pm.expect(resp.title).to.be.a('string');",
+											"   });",
+											"",
+											"  pm.test (\"'author' is a number\", function() {",
+											"    pm.expect(resp.author).to.be.a('number');",
+											"   }); ",
+											"",
+											"let req = JSON.parse(request.data);",
+											"",
+											"pm.test(\"'title request' = title response\", function (){",
+											"    pm.expect(req.title).to.eql(resp.title)",
+											"});",
+											"",
+											"pm.test(\"'content request' = content response\", function (){",
+											"    pm.expect(req.content).to.eql(resp.content)",
+											"});",
+											"",
+											"pm.test(\"'post' request = 'post' response\", function (){",
+											"    pm.expect(req.post).to.eql(resp.post)",
+											"});",
+											"",
+											"",
+											"// При превыщающем количестве символов",
+											"",
+											"",
+											"pm.test(\"'title' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.title.length).to.below(81)",
+											"})",
+											"",
+											"",
+											"",
+											"pm.test(\"'content' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.content.length).to.below(81)",
+											"})",
+											"",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_post4comment\", jsonData.id);",
+											"    console.log('id_post4comment = ' + jsonData.id)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Tes2t\",\n    \"content\": \"Pro1v2erka\",\n    \"post\": {{id_post4comment}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post comment (unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp =pm.response.json();",
+											"",
+											"pm.test(\"Status code is 401. UNAUTHORIZED\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'content' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка значений в ответе",
+											"",
+											"pm.test (\"Response 'message' value  = Could not verify your login!\", function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"pm.test (\"Response 'type' value = error\", function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Наличие Headers",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test('\"WWW-Authenticate\" header is present', function(){",
+											"pm.response.to.has.header(\"WWW-Authenticate\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameInvalid}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Tes2t\",\n    \"content\": \"Pro1v2erka\",\n    \"post\": {{id_post4comment}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is  200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var schema ={",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"content\",",
+											"        \"id\",",
+											"        \"post\",",
+											"        \"publication_datetime\",",
+											"        \"title\",",
+											"        \"author\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"content\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The content Schema\",",
+											"            \"examples\": [",
+											"                \"Pro1v2erka\"",
+											"            ]",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The id Schema\",",
+											"            \"examples\": [",
+											"                7",
+											"            ]",
+											"        },",
+											"        \"post\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The post Schema\",",
+											"            \"examples\": [",
+											"                147",
+											"            ]",
+											"        },",
+											"        \"publication_datetime\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The publication_datetime Schema\",",
+											"            \"examples\": [",
+											"                \"2022-06-01T09:20:39.090963\"",
+											"            ]",
+											"        },",
+											"        \"title\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The title Schema\",",
+											"            \"examples\": [",
+											"                \"Tes2t\"",
+											"            ]",
+											"        },",
+											"        \"author\": {",
+											"            \"type\": \"integer\",",
+											"            \"default\": 0,",
+											"            \"title\": \"The author Schema\",",
+											"            \"examples\": [",
+											"                4",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"content\": \"Pro1v2erka\",",
+											"        \"id\": 7,",
+											"        \"post\": 147,",
+											"        \"publication_datetime\": \"2022-06-01T09:20:39.090963\",",
+											"        \"title\": \"Tes2t\",",
+											"        \"author\": 4",
+											"    }]",
+											"}",
+											"    ",
+											"",
+											"    ",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"var array = resp[0];",
+											"console.log(array)",
+											"",
+											"//",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"pm.test (\"Response has a 'content' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"content\")",
+											"});",
+											"pm.test (\"Response has a 'id' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"id\")",
+											"});",
+											"pm.test (\"Response has a 'post' key\" , function () {",
+											"    pm.response.to.have.jsonBody('post')",
+											"});",
+											"pm.test (\"Response has a 'publication_datetime' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"publication_datetime\")",
+											"});",
+											"pm.test (\" Response has a 'title' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"title\")",
+											"});",
+											"pm.test (\"Response has a 'author' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"author\")",
+											"});",
+											"",
+											"// Тип данных в ответе ",
+											"",
+											"",
+											"pm.test (\"'сontent' is a string\", function() {",
+											"    pm.expect(resp.content).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'id' is a number\", function() {",
+											"    pm.expect(resp.id).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'post' is a number\", function() {",
+											"    pm.expect(resp.post).to.be.a('number');",
+											"   });",
+											"",
+											"pm.test (\"'publication_datetime' is a string\", function() {",
+											"    pm.expect(resp.publication_datetime).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'title' is a string\", function() {",
+											"    pm.expect(resp.title).to.be.a('string');",
+											"   });",
+											"",
+											"  pm.test (\"'author' is a number\", function() {",
+											"    pm.expect(resp.author).to.be.a('number');",
+											"   }); ",
+											"",
+											"//Количество ключей в ответе",
+											"",
+											"var count = Object.keys(resp).length;",
+											"pm.test(\"Count of response keys = 6\", function(){",
+											"pm.expect(count).to.eql(6);",
+											"});",
+											"",
+											"// Проверка Headers ответа",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"    var jsonData2 = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.environment.set(\"id_comment\", jsonData2.id);",
+											"    console.log('id_get_comment= ' + jsonData2.id)",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Статус код 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"pm.test (\"'message' value has a 'update' key \" , function () {",
+											"    pm.expect(resp.message).to.eql('updated')}",
+											");",
+											"",
+											"pm.test (\"'type' value has a 'success' key  \" , function () {",
+											"    pm.expect(resp.type).to.eql('success')}",
+											");",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// При превыщающем количестве символов",
+											"",
+											"var req = JSON.parse(request.data);",
+											"pm.test(\"'title' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.title.length).to.below(81)",
+											"})",
+											"",
+											"",
+											"pm.test(\"'content' not longer than maximum length 80\", () => {",
+											"    pm.expect(req.content.length).to.below(81)",
+											"})",
+											"",
+											"",
+											"// Проверка headers",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Length' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"    var jsonData2 = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.environment.set(\"id_comment\", jsonData2.id);",
+											"    console.log('id_get_comment= ' + jsonData2.id)",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"content\": \"yournewpfasdsadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment (unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 401. Unauthorized.\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"    var jsonData2 = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_comment\", jsonData2.id);",
+											"    console.log('id_get_comment= ' + jsonData2.id)",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameInvalid}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"content\": \"yournewpfasdsadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_get_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_get_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment (forbidden)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 403. Forbidden.\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"// Значение в ответе",
+											"",
+											"pm.test (\"Response 'message' value  =  Forbidden\", function() {",
+											"    pm.expect(resp.message).to.eql('Forbidden');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = error\", function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"    var jsonData2 = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_comment\", jsonData2.id);",
+											"    console.log('id_get_comment= ' + jsonData2.id)",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameFordbidden}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"content\": \"yournewpfasdsadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_get_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_get_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is  204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											"",
+											"",
+											"tests[\"Response body is empty\"] = responseBody.length==0;",
+											"",
+											"// Наличие Headers",
+											"",
+											"pm.test(\"'Server' header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"'Date' header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"'Content-Type' header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"'Connection' header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test(\"'Cache-Control' header is present\", function(){",
+											"pm.response.to.has.header(\"Cache-Control\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Создание поста",
+											"",
+											"const post = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\" + pm.collectionVariables.get(\"tester\")+\"/posts\",",
+											"",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Test\",",
+											"        content: \"Proverka\"",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post, function (err, res) {",
+											"    var jsonData = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_get_post_for_comment\", jsonData.id);",
+											"    console.log('id_get_post_for_comment = ' + jsonData.id)",
+											"});",
+											"",
+											"// Создание комментария",
+											"",
+											"",
+											"const post_comment = {",
+											"    url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+ pm.collectionVariables.get(\"tester\")+\"/comments\",",
+											"    method: 'POST',",
+											"    header: {'Accept': 'application/json', 'content-type':'application/json',",
+											"    'Authorization' : 'Basic SmVueWE6MTIz'},",
+											"    body: {",
+											"             mode:'raw',",
+											"     raw: JSON.stringify(",
+											"    {",
+											"        title: \"Commentariy\",",
+											"        content: \"Polojitelnyy\",",
+											"        post:pm.collectionVariables.get(\"id_get_post_for_comment\")",
+											"    })",
+											"    }",
+											"};",
+											"",
+											"pm.sendRequest(post_comment, function (err, res) {",
+											"    var jsonData2 = res.json();",
+											"          console.log(err);",
+											"          console.log(res);",
+											"            pm.collectionVariables.set(\"id_comment\", jsonData2.id);",
+											"    console.log('id_comment= ' + jsonData2.id)",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Redelete comment (зависим от прошлых тестов)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											"var schema =",
+											"{",
+											"    \"$schema\": \"https://json-schema.org/draft/2019-09/schema\",",
+											"    \"$id\": \"http://example.com/example.json\",",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"Post not found\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"error\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"Post not found\",",
+											"        \"type\": \"error\"",
+											"    }]",
+											"}",
+											"",
+											"var resp = pm.response.json();    ",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка наличия всех ключей",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"// Проверка типов данных значений",
+											"",
+											"pm.test (\"'content' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка значений в ответе",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Comment not found');",
+											"   });",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{Username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment (forbidden)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 403. Forbidden.\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"type\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  =  Forbidden\", function() {",
+											"    pm.expect(resp.message).to.eql('Forbidden');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = error\", function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameFordbidden}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_post_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_post_comment}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment (anauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 401. Unauthorized.\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"",
+											"// Валидация Json схемы",
+											"var schema = {",
+											"    \"type\": \"object\",",
+											"    \"default\": {},",
+											"    \"title\": \"Root Schema\",",
+											"    \"required\": [",
+											"        \"message\",",
+											"        \"type\"",
+											"    ],",
+											"    \"properties\": {",
+											"        \"message\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The message Schema\",",
+											"            \"examples\": [",
+											"                \"updated\"",
+											"            ]",
+											"        },",
+											"        \"type\": {",
+											"            \"type\": \"string\",",
+											"            \"default\": \"\",",
+											"            \"title\": \"The type Schema\",",
+											"            \"examples\": [",
+											"                \"success\"",
+											"            ]",
+											"        }",
+											"    },",
+											"    \"examples\": [{",
+											"        \"message\": \"updated\",",
+											"        \"type\": \"success\"",
+											"    }]",
+											"}",
+											"",
+											"var resp =pm.response.json();",
+											"",
+											"pm.test('JSON shema is valid', function () {",
+											"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+											"",
+											"});",
+											"",
+											"// Проверка типа данных",
+											"",
+											"pm.test (\"Response is an object\" , function () {",
+											"    pm.expect(resp).to.be.a(\"Object\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'message' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response has a 'type' key\" , function () {",
+											"    pm.response.to.have.jsonBody(\"message\")",
+											"});",
+											"",
+											"pm.test (\"Response 'message' value  = \" + resp.message, function() {",
+											"    pm.expect(resp.message).to.eql('Could not verify your login!');",
+											"   });",
+											"",
+											"pm.test (\"Response 'type' value = \" + resp.type, function() {",
+											"    pm.expect(resp.type).to.eql('error');",
+											"   });",
+											"",
+											"// Тип данных в ответе",
+											"",
+											"pm.test (\"'message' value is a string\", function() {",
+											"    pm.expect(resp.message).to.be.a('string');",
+											"   });",
+											"",
+											"pm.test (\"'type' value is a string\", function() {",
+											"    pm.expect(resp.type).to.be.a('string');",
+											"   });",
+											"",
+											"// Проверка headers ",
+											"",
+											"pm.test(\"Server header is present\", function(){",
+											"pm.response.to.has.header(\"Server\");",
+											"});",
+											"",
+											"pm.test(\"Date header is present\", function(){",
+											"pm.response.to.has.header(\"Date\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Length header is present\", function(){",
+											"pm.response.to.has.header(\"Content-Length\");",
+											"});",
+											"",
+											"pm.test(\"Connection header is present\", function(){",
+											"pm.response.to.has.header(\"Connection\");",
+											"});",
+											"",
+											"pm.test('\"WWW-Authenticate\" header is present', function(){",
+											"pm.response.to.has.header(\"WWW-Authenticate\");",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{UsernameInvalid}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{Password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/{{id_post_comment}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"{{id_post_comment}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sign-in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json(); ",
+									"",
+									"var req = JSON.parse(request.data);",
+									"",
+									"var username_req = req.username;",
+									"var email_req = req.email;",
+									"",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.collectionVariables.set(\"usernameVar\", \"username_req\");",
+									"pm.collectionVariables.set(\"emailVar\", \"email_req\");",
+									"",
+									"",
+									"",
+									"   var schema = {",
+									"    \"type\": \"object\",",
+									"    \"default\": {},",
+									"    \"title\": \"Root Schema\",",
+									"    \"required\": [",
+									"        \"email\",",
+									"        \"id\",",
+									"        \"password\",",
+									"        \"username\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"email\": {",
+									"            \"type\": \"string\",",
+									"            \"default\": \"\",",
+									"            \"title\": \"The email Schema\",",
+									"            \"examples\": [",
+									"                \"vladimiro2ve2d1s11232322s1ss1s312.q21a@gmail1.comMisha312s121222122s12s111\"",
+									"            ]",
+									"        },",
+									"        \"id\": {",
+									"            \"type\": \"integer\",",
+									"            \"default\": 0,",
+									"            \"title\": \"The id Schema\",",
+									"            \"examples\": [",
+									"                31",
+									"            ]",
+									"        },",
+									"        \"password\": {",
+									"            \"type\": \"string\",",
+									"            \"default\": \"\",",
+									"            \"title\": \"The password Schema\",",
+									"            \"examples\": [",
+									"                \"$2b$12$04CjvGFzIpcpvJYPfclErOj1Z99JsIyn7OKtZAKKJKck7ffklMrhW\"",
+									"            ]",
+									"        },",
+									"        \"username\": {",
+									"            \"type\": \"string\",",
+									"            \"default\": \"\",",
+									"            \"title\": \"The username Schema\",",
+									"            \"examples\": [",
+									"                \"Misha312s121222122s12s11M1ishsa312s121222122s12s11MishMisha312s121222122s12s1111\"",
+									"            ]",
+									"        }",
+									"    },",
+									"    \"examples\": [{",
+									"        \"email\": \"vladimiro2ve2d1s11232322s1ss1s312.q21a@gmail1.comMisha312s121222122s12s111\",",
+									"        \"id\": 31,",
+									"        \"password\": \"$2b$12$04CjvGFzIpcpvJYPfclErOj1Z99JsIyn7OKtZAKKJKck7ffklMrhW\",",
+									"        \"username\": \"Misha312s121222122s12s11M1ishsa312s121222122s12s11MishMisha312s121222122s12s1111\"",
+									"    }]",
+									"}",
+									"",
+									"",
+									"pm.test('JSON shema is valid', function () {",
+									"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+									"",
+									"});",
+									"",
+									"pm.test (\"Response has a 'email' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"email\")",
+									"});",
+									"",
+									"pm.test (\"Response has a 'id' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"id\")",
+									"});",
+									"",
+									"pm.test (\"Response has a 'password' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"password\")",
+									"});",
+									"",
+									"pm.test (\"Response has a 'username' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"username\")",
+									"});",
+									"",
+									"// username и email из реквеста = респонсу",
+									" pm.test (\"request 'email' = response 'email'\" , function () {",
+									"    pm.expect(email_req).to.eql(resp.email)})",
+									"",
+									"console.log(email_req + '=' + resp.email)",
+									"",
+									" pm.test (\"request 'username' = response 'username'\" , function () {",
+									"    pm.expect(username_req).to.eql(resp.username)})",
+									"",
+									"console.log(username_req + '=' + resp.username)",
+									"",
+									"// Типы данных в ответе",
+									"",
+									"pm.test (\"'email' value is a string\", function() {",
+									"    pm.expect(resp.email).to.be.a('string');",
+									"   });",
+									"",
+									"pm.test (\"'id' value is a string\", function() {",
+									"    pm.expect(resp.id).to.be.a('number');",
+									"   });",
+									"",
+									"pm.test (\"'password' value is a string\", function() {",
+									"    pm.expect(resp.password).to.be.a('string');",
+									"   });",
+									"",
+									"pm.test (\"'username' value is a string\" , function() {",
+									"    pm.expect(resp.username).to.be.a('string');",
+									"   });",
+									"",
+									"// При превыщающем количестве символов",
+									"pm.test(\"'username' not longer than maximum length 80\", () => {",
+									"    pm.expect(req.username.length).to.below(81)",
+									"})",
+									"",
+									"",
+									"pm.test(\"'email' not longer than maximum length 120\", () => {",
+									"    pm.expect(req.email.length).to.below(121)",
+									"})",
+									"",
+									"",
+									"pm.collectionVariables.set(\"RepeatUsername\", resp.username);",
+									"pm.collectionVariables.set(\"RepeatEmail\", resp.email);",
+									"",
+									"",
+									"// Количество key в запросе ",
+									"var count_resp = Object.keys(resp).length;",
+									"pm.test(\"Count of response keys:values = \" + count_resp, function(){",
+									"pm.expect(count_resp).to.eql(4);",
+									"});",
+									"",
+									"// Проверка Headers ответа",
+									"",
+									"pm.test(\"'Server' header is present\", function(){",
+									"pm.response.to.has.header(\"Server\");",
+									"});",
+									"",
+									"pm.test(\"'Date' header is present\", function(){",
+									"pm.response.to.has.header(\"Date\");",
+									"});",
+									"",
+									"pm.test(\"'Content-Type' header is present\", function(){",
+									"pm.response.to.has.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"'Content-Length' header is present\", function(){",
+									"pm.response.to.has.header(\"Content-Length\");",
+									"});",
+									"",
+									"pm.test(\"'Connection' header is present\", function(){",
+									"pm.response.to.has.header(\"Connection\");",
+									"});",
+									"",
+									"pm.test(\"'Cache-Control' header is present\", function(){",
+									"pm.response.to.has.header(\"Cache-Control\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{randomName}}\",\n    \"email\": \"{{randomEmail}}\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/sign-in",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v1",
+								"api",
+								"{{tester}}",
+								"sign-in"
+							]
+						},
+						"description": "Required fields: username, email, password"
+					},
+					"response": []
+				},
+				{
+					"name": "sign-in (resign-in the same user)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response.json(); ",
+									"",
+									"var req = JSON.parse(request.data);",
+									"",
+									"    pm.test(\"Status code is 409. Conflict\", function () {",
+									"    pm.response.to.have.status(409)})",
+									"    ",
+									"",
+									"// Валидация Json схемы",
+									"var schema = {",
+									"    \"type\": \"object\",",
+									"    \"default\": {},",
+									"    \"title\": \"Root Schema\",",
+									"    \"required\": [",
+									"        \"message\",",
+									"        \"type\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"message\": {",
+									"            \"type\": \"string\",",
+									"            \"default\": \"\",",
+									"            \"title\": \"The message Schema\",",
+									"            \"examples\": [",
+									"                \"updated\"",
+									"            ]",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\",",
+									"            \"default\": \"\",",
+									"            \"title\": \"The type Schema\",",
+									"            \"examples\": [",
+									"                \"success\"",
+									"            ]",
+									"        }",
+									"    },",
+									"    \"examples\": [{",
+									"        \"message\": \"updated\",",
+									"        \"type\": \"success\"",
+									"    }]",
+									"}",
+									"",
+									"var resp =pm.response.json();",
+									"",
+									"pm.test('JSON shema is valid', function () {",
+									"    pm.expect(tv4.validate(resp, schema)).to.be.true;",
+									"",
+									"});",
+									"",
+									" // Наличие ключей",
+									" pm.test (\"Response has a 'message' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"message\")",
+									"});",
+									"",
+									"pm.test (\"Response has a 'type' key\" , function () {",
+									"    pm.response.to.have.jsonBody(\"type\")",
+									"});",
+									"",
+									"// Тип данных значений",
+									"",
+									"pm.test (\"'message' value is a string\", function() {",
+									"    pm.expect(resp.message).to.be.a('string');",
+									"   });",
+									"",
+									"pm.test (\"'type' value is a string\", function() {",
+									"    pm.expect(resp.type).to.be.a('string');",
+									"   });",
+									"",
+									"// значения ",
+									"",
+									"    pm.test (\"Response 'message' value  =  'User with this username or email already exists'\" , function () {",
+									"    pm.expect(resp.message).to.eql('User with this username or email already exists')})",
+									"",
+									"    pm.test (\"Response 'type' value  =  'error'\" , function () {",
+									"    pm.expect(resp.type).to.eql('error')})",
+									"",
+									"",
+									"pm.test(\"'Server' header is present\", function(){",
+									"pm.response.to.has.header(\"Server\");",
+									"});",
+									"",
+									"pm.test(\"'Date' header is present\", function(){",
+									"pm.response.to.has.header(\"Date\");",
+									"});",
+									"",
+									"pm.test(\"'Content-Type' header is present\", function(){",
+									"pm.response.to.has.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"'Content-Length' header is present\", function(){",
+									"pm.response.to.has.header(\"Content-Length\");",
+									"});",
+									"",
+									"pm.test(\"'Connection' header is present\", function(){",
+									"pm.response.to.has.header(\"Connection\");",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{RepeatUsername}}\",\n    \"email\": \"{{RepeatEmail}}\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/sign-in",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v1",
+								"api",
+								"{{tester}}",
+								"sign-in"
+							]
+						},
+						"description": "Required fields: username, email, password"
+					},
+					"response": []
+				},
+				{
+					"name": "delete all posts by one user (раскомментить)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"// var idFor = 110;",
+									"// for(var i = 1; i <=100 ; i++){",
+									"//     idFor++;",
+									"//     pm.collectionVariables.set(\"numberForDelete\", idFor)",
+									"",
+									"// const post = {",
+									"//     url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.variables.get(\"tester\")+\"/post/\"+pm.variables.get(\"numberForDelete\"),",
+									"//     method: 'DELETE',",
+									"//     header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'}",
+									"       ",
+									"// };",
+									"// console.log('НОМЕР ПЕРЕМЕННОЙ = '+ pm.variables.get(\"numberForDelete\"))",
+									"",
+									"// pm.sendRequest(post, function (err, res) {",
+									"  ",
+									"//           console.log(err);",
+									"//           console.log(res);",
+									"  ",
+									"//   });",
+									"// };",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{Username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/post/123",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v1",
+								"api",
+								"{{tester}}",
+								"post",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete all comments by one user (раскомментить)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"// var idFor = 0;",
+									"// for(var i = 1; i <=50 ; i++){",
+									"//     idFor++;",
+									"//     pm.collectionVariables.set(\"numberForDelete\", idFor)",
+									"",
+									"// const post = {",
+									"//     url: \"https://hr.recruit.liis.su/qa0/v1/api/\"+pm.variables.get(\"tester\")+\"/comment/\"+pm.variables.get(\"numberForDelete\"),",
+									"//     method: 'DELETE',",
+									"//     header: {'Accept': 'application/json', 'content-type':'application/json', 'Authorization': 'Basic SmVueWE6MTIz'}",
+									"       ",
+									"// };",
+									"// console.log('НОМЕР ПЕРЕМЕННОЙ = '+ pm.variables.get(\"numberForDelete\"))",
+									"",
+									"// pm.sendRequest(post, function (err, res) {",
+									"  ",
+									"//           console.log(err);",
+									"//           console.log(res);",
+									"  ",
+									"//   });",
+									"// };",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{Username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{Password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v1/api/{{tester}}/comment/123",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v1",
+								"api",
+								"{{tester}}",
+								"comment",
+								"123"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// Валидные данные пользователя",
+							"",
+							"pm.collectionVariables.set(\"Username\", \"Jenya\");",
+							"pm.collectionVariables.set(\"Password\", \"123\");",
+							"",
+							"// Невалидные данные пользователя",
+							"",
+							"pm.collectionVariables.set(\"UsernameInvalid\", \"Jenya456\");",
+							"pm.collectionVariables.set(\"UsernameFordbidden\", \"Forbid\");",
+							"",
+							"var randomName = pm.variables.replaceIn('{{$randomFirstName}}')",
+							"pm.collectionVariables.set('randomName', randomName)",
+							"",
+							"var randomEmail = pm.variables.replaceIn('{{$randomEmail}}')",
+							"pm.collectionVariables.set('randomEmail', randomEmail)",
+							"",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "LIIS Test v.2",
+			"item": [
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Get posts pagination",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}posts?page=1",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get posts",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();   ",
+											"pm.collectionVariables.set(\"id_post_v2\", resp.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Katelin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"postname\",\n    \"content\": \"postcontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/vladimiroves.qa@gmail.com/post/{{id_post_v2}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"vladimiroves.qa@gmail.com",
+										"post",
+										"{{id_post_v2}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put post",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Jenya",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"yournewpostname\",\n    \"content\": \"yournewpostcontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/post/{{id_post_v2}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post_v2}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/post/{{id_post_v2}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"post",
+										"{{id_post_v2}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Post comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response.json();   ",
+											"pm.collectionVariables.set(\"id_comment_v2\", resp.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "Jenya",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourcommenttitle\",\n    \"text\": \"yourcommenttext\",\n    \"post\": 15\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/comment/11",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Jenya",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadeesadsafname\",\n    \"text\": \"yournewpfasdseeadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/comment/11",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/comments?page=1",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "Jenya",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/comment/15",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"15"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"asdadadsdsmsin\",\n    \"email\": \"asdasyoure1sdsmad2il\",\n    \"password\": \"yourpassword\",\n    \"first_name\": \"yourfirstname\",\n    \"middle_name\": \"yourmiddlename\",\n    \"last_name\": \"yourlastname\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/sign-in",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{tester}}",
+								"sign-in"
+							]
+						},
+						"description": "Required fields: username, email, password.\nOptional fields: first_name, middle_name, last_name."
+					},
+					"response": []
+				},
+				{
+					"name": "Grant user admin role",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://hr.recruit.liis.su/qa0/v2/api/{{tester}}/make_admin",
+							"protocol": "https",
+							"host": [
+								"hr",
+								"recruit",
+								"liis",
+								"su"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{tester}}",
+								"make_admin"
+							]
+						},
+						"description": "Grant user admin role so that he can put and delete foreign entities."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "id_post",
+			"value": ""
+		},
+		{
+			"key": "usernameVar",
+			"value": ""
+		},
+		{
+			"key": "emailVar",
+			"value": ""
+		},
+		{
+			"key": "id_post_comment",
+			"value": ""
+		},
+		{
+			"value": "",
+			"disabled": true
+		},
+		{
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "id_post_for_comment",
+			"value": ""
+		},
+		{
+			"key": "id_post_v2",
+			"value": ""
+		},
+		{
+			"key": "id_comment_v2",
+			"value": ""
+		},
+		{
+			"key": "post_id",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "id_post_com",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "randomName",
+			"value": ""
+		},
+		{
+			"key": "randomEmail",
+			"value": ""
+		},
+		{
+			"key": "tester",
+			"value": "vladimiroves.qa@gmail.com"
+		},
+		{
+			"key": "RepeatUsername",
+			"value": ""
+		},
+		{
+			"key": "RepeatEmail",
+			"value": ""
+		},
+		{
+			"key": "id_put",
+			"value": ""
+		},
+		{
+			"key": "id_delete",
+			"value": ""
+		},
+		{
+			"key": "id_put_comment",
+			"value": ""
+		},
+		{
+			"key": "id_get",
+			"value": ""
+		},
+		{
+			"key": "id_get_post_for_comment",
+			"value": ""
+		},
+		{
+			"key": "Username",
+			"value": ""
+		},
+		{
+			"key": "Password",
+			"value": ""
+		},
+		{
+			"key": "UsernameInvalid",
+			"value": ""
+		},
+		{
+			"key": "UsernameFordbidden",
+			"value": ""
+		},
+		{
+			"key": "id_post4comment",
+			"value": ""
+		},
+		{
+			"key": "numberForDelete",
+			"value": ""
+		},
+		{
+			"key": "id_comment2",
+			"value": ""
+		},
+		{
+			"key": "id_comment",
+			"value": ""
+		},
+		{
+			"key": "id_get_comment",
+			"value": ""
+		}
+	]
+}
